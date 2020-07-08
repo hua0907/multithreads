@@ -40,9 +40,11 @@ public class CyclicBarrierDemo {
 
             while (i < 10) {
                 try {
-                    dVector.add(new Dorder());
+                    Dorder dorder = new Dorder();
+                    dVector.add(dorder);
+                    System.out.println("订单之前");
                     cb.await();
-                    System.out.println("订单");
+                    System.out.println("订单: " + dorder);
 //                    Thread.sleep(5000);
                 } catch (InterruptedException | BrokenBarrierException e) {
                     e.printStackTrace();
@@ -56,10 +58,13 @@ public class CyclicBarrierDemo {
             int i = 0;
             while (i < 10) {
                 try {
-                    pVector.add(new Porder());
+                    Porder porder = new Porder();
+                    pVector.add(porder);
+//                    Thread.sleep(5000);
+                    System.out.println("物流单之前");
                     cb.await();
-                    System.out.println("物流单");
                     Thread.sleep(5000);
+                    System.out.println("物流单: " + porder);
                 } catch (InterruptedException | BrokenBarrierException e) {
                     e.printStackTrace();
                 }
@@ -67,20 +72,6 @@ public class CyclicBarrierDemo {
             }
 
         };
-
-//        Runnable r3 = () -> {
-//            int i = 0;
-//            while (i < 10) {
-//                try {
-//                    cb.await();
-//                    System.out.println("测试单");
-//                } catch (InterruptedException | BrokenBarrierException e) {
-//                    e.printStackTrace();
-//                }
-//                i++;
-//            }
-//
-//        };
 
         Executor runPool = Executors.newFixedThreadPool(2);
         runPool.execute(r1);
